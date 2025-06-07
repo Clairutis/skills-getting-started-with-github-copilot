@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h5>Participants</h5>
             <ul class="participants-list">
               ${
-                details.participants.length
+                details.participants && details.participants.length
                   ? details.participants.map(email => `<li>${email}</li>`).join("")
                   : '<li><em>No participants yet</em></li>'
               }
