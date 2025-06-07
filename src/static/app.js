@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch("/activities");
       const activities = await response.json();
 
-      // Clear loading message
+      // Clear loading message and dropdown options
       activitiesList.innerHTML = "";
+      activitySelect.innerHTML = '<option value="">-- Select an activity --</option>';
 
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h5>Participants</h5>
             <ul class="participants-list">
               ${
-                details.participants && details.participants.length
+                Array.isArray(details.participants) && details.participants.length
                   ? details.participants.map(email => `<li>${email}</li>`).join("")
                   : '<li><em>No participants yet</em></li>'
               }
@@ -72,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        await fetchActivities(); // Refresh activities to show new participant
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
